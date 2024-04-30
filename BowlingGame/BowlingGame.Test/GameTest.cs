@@ -32,6 +32,16 @@ public class GameTest
     }
 
     [Test]
+    public void do_not_knocks_down_more_pins_than_exist()
+    {
+        _game.Roll(8);
+
+        var action = () => _game.Roll(3);
+
+        action.Should().Throw<NoPinsLeftException>();
+    }
+
+    [Test]
     public void get_bonus_from_next_roll_when_make_a_spare()
     {
         _game.Roll(7);
@@ -43,13 +53,13 @@ public class GameTest
     }
 
     [Test]
-    public void do_not_knocks_down_more_pins_than_exist()
+    public void get_bonus_from_next_two_rolls_when_make_a_strike()
     {
-        _game.Roll(8);
+        _game.Roll(10);
+        _game.Roll(7);
+        _game.Roll(1);
 
-        var action = () => _game.Roll(3);
-
-        action.Should().Throw<NoPinsLeftException>();
+        _game.Score().Should().Be(26);
     }
 
     //[Test]
