@@ -32,7 +32,7 @@ public class GameTest
     }
 
     [Test]
-    public void roll_twice_rounds_throwing_all_the_pins_in_the_second_roll_of_the_first_round()
+    public void get_bonus_from_next_roll_when_make_a_spare()
     {
         _game.Roll(7);
         _game.Roll(3);
