@@ -26,7 +26,7 @@ public class Game
             StartNewRound();
             return;
         }
-        IfNoRollsLeftThenStartNewRound();
+        IfNoRollLeftThenStartNewRound();
     }
 
     private bool NotEnoughBowlingPins(int pinsKnocked)
@@ -39,7 +39,7 @@ public class Game
         _rounds.Add(new Round(PinsByRound, RollsByRound));
     }
 
-    private void IfNoRollsLeftThenStartNewRound()
+    private void IfNoRollLeftThenStartNewRound()
     {
         if (_rounds.Last().RollsLeft() == 0)
         {
