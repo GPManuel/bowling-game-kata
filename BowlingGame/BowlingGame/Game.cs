@@ -11,31 +11,40 @@ public class Game
         _rounds = [new Round(PinsByRound, RollsByRound)];
     }
 
-    public void Roll(int pinsKnocked)
-    {
-        if (_rounds.Last().PinsLeft() - pinsKnocked < 0) throw new NoPinsLeftException();
-        //if (ThereAreNoBowlingPinsLeft(pinsKnocked)) return;
-        PlayRoll(pinsKnocked);
-
-        if (_rounds.Last().RollsLeft() == 0)
-        {
-            _rounds.Add(new Round(PinsByRound, RollsByRound));
-        }
-
-        if (_rounds.Count > 1 && _rounds[^2].PinsLeft() == 0)
-        {
-            _rounds[^2].AddExtraRound(_rounds[^2].RollsLeft() + 1);
-        }
-    }
-
-    private bool ThereAreNoBowlingPinsLeft(int pinsKnocked)
-    {
-        return _rounds.Last().PinsLeft() + pinsKnocked >= PinsByRound;
-    }
-
     public int Score()
     {
         return _rounds.Sum(x => x.GetRoundScore());
+    }
+
+    public void Roll(int pinsKnocked)
+    {
+        if (NotEnoughtBowlingPins(pinsKnocked)) throw new NoPinsLeftException();
+        PlayRoll(pinsKnocked);
+        if (_rounds.Last().PinsLeft() == 0)
+        {
+            _rounds.Last().AddExtraRound(_rounds.Last().RollsLeft() + 1);
+            StartNewRound();
+            return;
+        }
+        IfNoRollLeftThenStartNewRound();
+    }
+
+    private bool NotEnoughtBowlingPins(int pinsKnocked)
+    {
+        return _rounds.Last().PinsLeft() - pinsKnocked < 0;
+    }
+
+    private void StartNewRound()
+    {
+        _rounds.Add(new Round(PinsByRound, RollsByRound));
+    }
+
+    private void IfNoRollLeftThenStartNewRound()
+    {
+        if (_rounds.Last().RollsLeft() == 0)
+        {
+            StartNewRound();
+        }
     }
 
     private void PlayRoll(int pinsKnocked)
