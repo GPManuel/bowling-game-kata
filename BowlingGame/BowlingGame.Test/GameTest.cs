@@ -43,7 +43,7 @@ public class GameTest
     }
 
     [Test]
-    public void roll_one_round_and_knocks_down_more_pins_than_exist()
+    public void do_not_knocks_down_more_pins_than_exist()
     {
         _game.Roll(8);
 
